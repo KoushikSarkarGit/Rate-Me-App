@@ -9,7 +9,7 @@ interface connectionObject {
 const connection: connectionObject = {};
 
 
-async function dbConnect() {
+export default async function dbConnect() {
     if(connection.isConnected){
         console.log("Already Connected to Database")
         return;
