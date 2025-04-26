@@ -15,7 +15,7 @@ export async function POST(request: Request){
         if(existingUserVerifiedByUsername){
             return Response.json({
                 success: false,
-                message: "User Is Already Verified",
+                message: "User Is Already Registered and Verified",
             }, {status: 400})
         }
 
@@ -64,8 +64,30 @@ export async function POST(request: Request){
         username,
         myverifyCode
       );
+      //failed to send verify email
+      if(!emailResponse.success){
+        return Response.json({
+          succcess: false,
+          message: emailResponse.message
+        });
+      }
+      // email successful
+
+      return Response.json(
+        {
+          success: true,
+          message: 'User registered successfully. Please verify your account.',
+        },
+        { status: 201 }
+      )
 
     } catch (error) {
+
+      console.log("error registering user", error)
+      return Response.json({
+        success:false,
+        message: "failed to register user"
+      },{status: 500})
         
     }
 }
